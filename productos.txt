@@ -1,0 +1,26 @@
+[
+  {
+    "title": "televisor",
+    "price": 599,
+    "thumbnail": "https://images.samsung.com/is/image/samsung/p6pim/uy/un32t4310agxug/gallery/uy-hd-t4300-394450-un32t4310agxug-469950136?$650_519_PNG$",
+    "id": 1
+  },
+  {
+    "title": "silla",
+    "price": 49,
+    "thumbnail": "https://f.fcdn.app/imgs/1a0055/www.divino.com.uy/div/765e/original/catalogo/240739001_0/1500-1500/silla-de-comedor-madera-acacia-ahf.jpg",
+    "id": 2
+  },
+  {
+    "title": "silla",
+    "price": 49,
+    "thumbnail": "https://f.fcdn.app/imgs/1a0055/www.divino.com.uy/div/765e/original/catalogo/240739001_0/1500-1500/silla-de-comedor-madera-acacia-ahf.jpg",
+    "id": 3
+  },
+  {
+    "title": "televisor",
+    "price": 599,
+    "thumbnail": "https://images.samsung.com/is/image/samsung/p6pim/uy/un32t4310agxug/gallery/uy-hd-t4300-394450-un32t4310agxug-469950136?$650_519_PNG$",
+    "id": 4
+  }
+]
