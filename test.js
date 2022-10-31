@@ -17,16 +17,17 @@ const cama = {
     price: 600,
     thumbnail: 'https://images.demandware.net/dw/image/v2/BBBV_PRD/on/demandware.static/-/Sites-master-catalog/default/dwc7c0575c/images/460000/461151.jpg?sfrm=jpg'
 }
+
 const cont = new Contenedor('Productos')
 
 const main = async () => {
     console.log(await cont.save(televisor));
     console.log(await cont.save(silla));
-    console.log(await cont.save(silla));
-    console.log(await cont.save(televisor));
-    console.log(await cont.getAll());
+    console.log(await cont.save(cama));
     console.log(await cont.getById(2));
+    console.log(await cont.getAll());
+    // await cont.deleteById(1);
+    // await cont.deleteAll();
 }
 
 main()
-// cont.deleteById(1)
