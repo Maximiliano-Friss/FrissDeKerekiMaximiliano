@@ -31,4 +31,11 @@ app.get('/productos', async (req, res) => {
     res.send(productos);
 })
 
+app.get('/productoRandom', async (req, res) => {
+    const productos = await cont.getAll();
+    const randomNumber = Math.ceil(Math.random()*productos.length)
+    const productoRandom = await cont.getById(randomNumber);
+    res.send(productoRandom);
+})
+
 server.on('error', error => console.log(`Error: ${error}`))
