@@ -1,3 +1,5 @@
+const express = require('express')
+const app = express()
 const Contenedor = require('./classContenedor.js')
 
 const televisor = {
@@ -18,16 +20,15 @@ const cama = {
     thumbnail: 'https://images.demandware.net/dw/image/v2/BBBV_PRD/on/demandware.static/-/Sites-master-catalog/default/dwc7c0575c/images/460000/461151.jpg?sfrm=jpg'
 }
 
-const cont = new Contenedor('Productos')
+const cont = new Contenedor('Productos');
+const PORT = 8080;
+const server = app.listen(PORT, () => {
+    console.log(`Escuchando en el port ${server.address().port}`)
+})
 
-const main = async () => {
-    console.log(await cont.save(televisor));
-    console.log(await cont.save(silla));
-    console.log(await cont.save(cama));
-    console.log(await cont.getById(2));
-    console.log(await cont.getAll());
-    // await cont.deleteById(1);
-    // await cont.deleteAll();
-}
+app.get('/productos', async (req, res) => {
+    const productos = await cont.getAll();
+    res.send(productos);
+})
 
-main()
+server.on('error', error => console.log(`Error: ${error}`))
