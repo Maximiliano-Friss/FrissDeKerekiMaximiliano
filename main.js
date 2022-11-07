@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const Contenedor = require('./classContenedor.js')
@@ -21,8 +22,7 @@ const cama = {
 }
 
 const cont = new Contenedor('Productos');
-const PORT = 8080;
-const server = app.listen(PORT, () => {
+const server = app.listen(process.env.PORT, () => {
     console.log(`Escuchando en el port ${server.address().port}`)
 })
 
