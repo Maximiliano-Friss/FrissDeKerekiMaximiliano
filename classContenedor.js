@@ -20,7 +20,20 @@ class Contenedor {
             dataToSave.push(product);
             await fs.promises.writeFile('./productos.txt', JSON.stringify(dataToSave, null, 2));
             console.log('Se agregó un nuevo producto. Su id será')
-            return product.id
+            return product
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    update = async(id, newProduct) => {
+        try{
+            const currentData = await fs.promises.readFile('./productos.txt', 'utf-8');
+            const currentDataJSON = JSON.parse(currentData);
+            currentDataJSON[id-1] = {...currentDataJSON[id-1], ...newProduct};
+            await fs.promises.writeFile('./productos.txt', JSON.stringify(currentDataJSON, null, 2));
+            return currentDataJSON[id-1];
         }
         catch (err) {
             console.log(err)
@@ -32,7 +45,7 @@ class Contenedor {
             const currentData = await fs.promises.readFile('./productos.txt', 'utf-8');
             const currentDataJSON = JSON.parse(currentData);
             console.log(`Se muestra el producto con el id ${number}:`)
-            return currentDataJSON.find(element => element.id === number) ?? null;
+            return currentDataJSON.find(element => element.id === number) ?? {error: 'producto no encontrado'};
         }
         catch (err) {
             console.log(err)
@@ -93,6 +106,5 @@ const cama = {
     thumbnail: 'https://images.demandware.net/dw/image/v2/BBBV_PRD/on/demandware.static/-/Sites-master-catalog/default/dwc7c0575c/images/460000/461151.jpg?sfrm=jpg'
 }
 
-const cont = new Contenedor('Productos');
 
 module.exports = Contenedor
