@@ -1,0 +1,32 @@
+[
+  {
+    "nombre": "lampara",
+    "precio": "26",
+    "thumbnail": "https://www.hogarmania.com/archivos/201110/lampara-madera-xl-668x400x80xX.jpg",
+    "id": 1
+  },
+  {
+    "nombre": "cama",
+    "precio": 800,
+    "thumbnail": "https://cdn.rencdn.com/ashley/high/B697-78-76-99-ANGLE-SW-P1-KO.jpg",
+    "id": 2
+  },
+  {
+    "nombre": "PC",
+    "precio": "1000",
+    "thumbnail": "https://www.tecnologia-informatica.com/wp-content/uploads/2018/07/funciones-de-la-computadora-1.jpeg",
+    "id": 3
+  },
+  {
+    "nombre": "televisor",
+    "precio": 599,
+    "thumbnail": "https://images.samsung.com/is/image/samsung/p6pim/uy/un32t4310agxug/gallery/uy-hd-t4300-394450-un32t4310agxug-469950136?$650_519_PNG$",
+    "id": 4
+  },
+  {
+    "nombre": "Mouse",
+    "precio": "49",
+    "thumbnail": "mouse.jpeg",
+    "id": 5
+  }
+]
