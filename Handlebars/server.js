@@ -1,43 +1,41 @@
 require('dotenv').config()
 const express = require('express')
-const {Router} = express
 const app = express()
-const routerProductos = Router()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.use('/static', express.static(__dirname + '/public'))
+const handlebars = require('express-handlebars')
+app.engine('hbs', handlebars.engine({
+    extname: '.hbs',
+    defaultLayout: 'index.hbs',
+    layoutsDir: __dirname + '/views/layouts/',
+    partialsDir: __dirname + '/views/partials/'
+    }))
+app.set('view engine', 'hbs')
+app.set('views', './views')
+app.use(express.static('public'))
 const Contenedor = require('./classContenedor.js')
 const cont = new Contenedor('Productos');
 
-routerProductos.get('/', async (req, res) => {
+app.get('/', async (req, res) => {
+    res.render('form')
+})
+
+app.get('/productos', async (req, res) => {
     const products = await cont.getAll();
-    res.json(products);
+    if (products.length>0){
+        full = true;
+    }
+    res.render('products', {products, full});
 })
 
-routerProductos.get('/:id', async (req, res) => {
-    const selectedProduct = await cont.getById(Number(req.params.id))
-    res.json(selectedProduct);
+app.post('/productos', async (req, res) => {
+    cont.save(req.body);
+    const products = await cont.getAll();
+    if (products.length>0){
+        full = true;
+    }
+    res.render('products', {products, full});
 })
-
-routerProductos.post('/', async (req, res) => {
-    const newProduct = await cont.save(req.body);
-    res.json(newProduct);
-})
-
-routerProductos.put('/:id', async (req, res) => {
-    const {id} = req.params;
-    const updatedProduct = await cont.update(id, req.body);
-    res.json({actualizado: updatedProduct});
-})
-
-routerProductos.delete('/:id', async (req, res) => {
-    const {id} = req.params;
-    const selectedProduct = await cont.getById(Number(req.params.id));
-    await cont.deleteById(Number(id));
-    res.json({eliminado: selectedProduct});
-})
-
-app.use('/api/productos', routerProductos)
 
 const server = app.listen(process.env.PORT, () => {
     console.log(`Escuchando en el port ${server.address().port}`)

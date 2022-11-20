@@ -1,32 +1,38 @@
 [
   {
-    "nombre": "lampara",
+    "nombre": "Lampara",
     "precio": "26",
-    "thumbnail": "https://www.hogarmania.com/archivos/201110/lampara-madera-xl-668x400x80xX.jpg",
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/bootstrap-fill-vol-2/16/lamp-fill-64.png",
     "id": 1
   },
   {
-    "nombre": "cama",
+    "nombre": "Cama",
     "precio": 800,
-    "thumbnail": "https://cdn.rencdn.com/ashley/high/B697-78-76-99-ANGLE-SW-P1-KO.jpg",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/boxicons-solid-vol-1/24/bxs-bed-64.png",
     "id": 2
   },
   {
     "nombre": "PC",
     "precio": "1000",
-    "thumbnail": "https://www.tecnologia-informatica.com/wp-content/uploads/2018/07/funciones-de-la-computadora-1.jpeg",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_laptop_mac_48px-64.png",
     "id": 3
   },
   {
-    "nombre": "televisor",
+    "nombre": "Televisor",
     "precio": 599,
-    "thumbnail": "https://images.samsung.com/is/image/samsung/p6pim/uy/un32t4310agxug/gallery/uy-hd-t4300-394450-un32t4310agxug-469950136?$650_519_PNG$",
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/communication-01/32/Television-64.png",
     "id": 4
   },
   {
     "nombre": "Mouse",
     "precio": "49",
-    "thumbnail": "mouse.jpeg",
+    "thumbnail": "https://cdn0.iconfinder.com/data/icons/freebies-2/24/mouse-64.png",
     "id": 5
+  },
+  {
+    "nombre": "Aire acondicionado",
+    "precio": "687",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/hotel-and-restaurant-solid-icons-vol-1/64/049-64.png",
+    "id": 6
   }
 ]
