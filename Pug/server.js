@@ -5,7 +5,6 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.set('view engine', 'pug')
 app.set('views', './views')
-app.use(express.static('public'))
 const Contenedor = require('./classContenedor.js')
 const cont = new Contenedor('Productos');
 
