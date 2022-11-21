@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <%- include('../partials/head.ejs')-%>
+    </head>
+    <body>
+        <% if(productos.length > 0){ %>
+            <div class="w-75 mx-auto mt-5">
+                <div class="table-responsive">
+                    <table class="table table-success">
+                    <tr class="h3"> <th>Nombre</th> <th>Precio</th> <th>Thumbnail</th> </tr>
+                    <% for (const prod of productos) {%>
+                        <tr>
+                            <td><%=prod.nombre%></td>
+                            <td><%=prod.precio%></td>
+                            <td><img src=<%=prod.thumbnail%> alt=<%=prod.nombre%>></td>
+                        </tr>
+                    <%};%>
+                </table>
+                <% } else{ %>
+                    <h3 class="alert alert-danger">No existen productos</h3>
+                    <% } %>
+                <a href="./" class="btn mx-4 my-2 btn-success">Cargar un nuevo producto</a>
+                </div>
+            </div>
+    </body>
+</html>

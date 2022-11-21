@@ -19,8 +19,7 @@ class Contenedor {
             product.id = dataToSave.length + 1
             dataToSave.push(product);
             await fs.promises.writeFile('./productos.txt', JSON.stringify(dataToSave, null, 2));
-            console.log('Se agregó un nuevo producto. Su id será')
-            return product
+            console.log(`Se agregó un nuevo producto. Su id será ${product.id}`)
         }
         catch (err) {
             console.log(err)
