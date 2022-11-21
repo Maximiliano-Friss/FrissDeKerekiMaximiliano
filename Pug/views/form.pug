@@ -1,0 +1,22 @@
+extends index
+
+block content
+    h2 Ingrese un nuevo producto
+    br
+    div.w-75.mx-auto.mt-5
+        form(action="/productos" method="post")
+            div.form-group
+                label(for="nombre") 
+                    b Nombre
+                input#nombre.form-control(type="text" name="nombre")
+            div.form-group
+                label(for="thumbnail") 
+                    b Precio
+                input#precio.form-control(type="text" name="precio")
+            div.form-group
+                label(for="thumbnail") 
+                    b Thumbnail
+                input#thumbnail.form-control(type="text" name="thumbnail")
+            button.btn.btn-success.mt-3.mb-5 Cargar
+        a.btn.mx-4.my-2.btn-dark(href="./productos") Ver productos
+
