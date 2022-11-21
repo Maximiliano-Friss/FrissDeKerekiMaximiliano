@@ -12,7 +12,6 @@ app.engine('hbs', handlebars.engine({
     }))
 app.set('view engine', 'hbs')
 app.set('views', './views')
-app.use(express.static('public'))
 const Contenedor = require('./classContenedor.js')
 const cont = new Contenedor('Productos');
 
