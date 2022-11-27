@@ -1,0 +1,47 @@
+{{!-- FORM --}}
+<h2 class="w-75 mt-3">Ingrese un nuevo producto</h2>
+<br>
+<div class="w-75 mx-auto mt-5">
+    <form id="form1">
+        <div class="form-group">
+            <label for="nombre"><b>Nombre</b></label>
+            <input id="nombre" class="form-control" type="text" name="nombre">
+        </div>
+        <div class="form-group">
+            <label for="precio"><b>Precio</b></label>
+            <input id="precio" class="form-control" type="text" name="precio">
+        </div>
+        <div class="form-group">
+            <label for="thumbnail"><b>Thumbnail</b></label>
+            <input id="thumbnail" class="form-control" type="text" name="thumbnail">
+        </div>
+        <button class="btn btn-success mt-3 mb-5">Cargar</button>
+    </form>
+    <a href="./productos" class="btn mx-4 my-2 btn-dark">Ver productos</a>
+</div>
+<br>
+
+<div class="w-75 mx-auto mt-5 prodList">
+    {{#if full}}
+        <table class="table table-success" id="table1">
+            <tr class="h3"> <th>Nombre</th> <th>Precio</th> <th>Thumbnail</th> </tr>
+        </table>
+        {{else}}
+        <h3 class="alert alert-danger">No existen productos</h3>
+    {{/if}}
+</div>
+
+<div class="w-75 mx-auto mt-5 prodList">
+    <h2>Chat</h2>
+    <form id="form2">
+        <div class="form-group">
+            <input placeholder="Ingresar Email" id="email" class="form-control" type="email" name="email">
+        </div>
+        <div class="form-group">
+            <input placeholder="Escribe algo..." id="mensaje" class="form-control" type="text" name="mensaje">
+        </div>
+        <button class="btn btn-success mt-3 mb-5">Enviar</button>
+    </form>
+    <div id="msg"></div>
+</div>
+

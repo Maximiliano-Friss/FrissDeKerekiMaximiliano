@@ -1,0 +1,15 @@
+.email {
+    color: blue;
+    font-weight: bold;
+    width: 25%;
+}
+
+.date {
+    color: brown;
+}
+
+.mensaje {
+    color: green;
+    font-style: italic;
+    width: 70%;
+}

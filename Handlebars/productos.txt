@@ -34,5 +34,11 @@
     "precio": "687",
     "thumbnail": "https://cdn2.iconfinder.com/data/icons/hotel-and-restaurant-solid-icons-vol-1/64/049-64.png",
     "id": 6
+  },
+  {
+    "nombre": "Lampara",
+    "precio": "687",
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/bootstrap-fill-vol-2/16/lamp-fill-64.png",
+    "id": 7
   }
 ]
