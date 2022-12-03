@@ -19,7 +19,7 @@ class Contenedor {
             product.id = dataToSave.length + 1
             dataToSave.push(product);
             await fs.promises.writeFile('./productos.txt', JSON.stringify(dataToSave, null, 2));
-            console.log('Se agregó un nuevo producto. Su id será')
+            console.log(`Se agregó un nuevo producto. Su id será ${product.id}`)
             return product
         }
         catch (err) {
@@ -87,24 +87,5 @@ class Contenedor {
         }
     }
 }
-
-const televisor = {
-    title:'televisor',
-    price: 599,
-    thumbnail: 'https://images.samsung.com/is/image/samsung/p6pim/uy/un32t4310agxug/gallery/uy-hd-t4300-394450-un32t4310agxug-469950136?$650_519_PNG$',
-}
-
-const silla = {
-    title:'silla',
-    price: 49,
-    thumbnail: 'https://f.fcdn.app/imgs/1a0055/www.divino.com.uy/div/765e/original/catalogo/240739001_0/1500-1500/silla-de-comedor-madera-acacia-ahf.jpg'
-}
-
-const cama = {
-    title:'cama',
-    price: 600,
-    thumbnail: 'https://images.demandware.net/dw/image/v2/BBBV_PRD/on/demandware.static/-/Sites-master-catalog/default/dwc7c0575c/images/460000/461151.jpg?sfrm=jpg'
-}
-
 
 module.exports = Contenedor

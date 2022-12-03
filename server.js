@@ -3,6 +3,7 @@ const express = require('express')
 const {Router} = express
 const app = express()
 const routerProductos = Router()
+const routerCarrito = Router()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use('/static', express.static(__dirname + '/public'))
@@ -38,6 +39,39 @@ routerProductos.delete('/:id', async (req, res) => {
 })
 
 app.use('/api/productos', routerProductos)
+
+routerCarrito.get('/', async (req, res) => {
+    const products = await cont.getAll();
+    res.json(products);
+})
+
+routerCarrito.get('/:id', async (req, res) => {
+    const selectedProduct = await cont.getById(Number(req.params.id))
+    res.json(selectedProduct);
+})
+
+routerCarrito.post('/', async (req, res) => {
+    const newProduct = await cont.save(req.body);
+    res.json(newProduct);
+})
+
+routerCarrito.put('/:id', async (req, res) => {
+    const {id} = req.params;
+    const updatedProduct = await cont.update(id, req.body);
+    res.json({actualizado: updatedProduct});
+})
+
+routerCarrito.delete('/:id', async (req, res) => {
+    const {id} = req.params;
+    const selectedProduct = await cont.getById(Number(req.params.id));
+    await cont.deleteById(Number(id));
+    res.json({eliminado: selectedProduct});
+})
+
+app.use('/api/carrito', routerCarrito)
+
+
+
 
 const server = app.listen(process.env.PORT, () => {
     console.log(`Escuchando en el port ${server.address().port}`)
