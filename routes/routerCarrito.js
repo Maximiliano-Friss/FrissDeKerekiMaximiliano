@@ -24,8 +24,12 @@ routerCarrito.get('/:id/productos', async (req, res) => {
 
 routerCarrito.post('/:id/productos/:id_prod', async (req, res) => {
     const newProduct = await cont.getById(Number(req.params.id_prod))
-    cart.saveProductToCart(Number(req.params.id), newProduct)
-    res.json({agregado: `${newProduct.nombre} a carrito de ID ${Number(req.params.id)}`});
+    if(newProduct !== undefined){
+        cart.saveProductToCart(Number(req.params.id), newProduct)
+        res.json({agregado: `${newProduct.nombre} a carrito de ID ${Number(req.params.id)}`});
+    } else {
+        res.json({error: `No existen productos con id ${Number(req.params.id_prod)}`})
+    }
 })
 
 routerCarrito.delete('/:id/productos/:id_prod', async (req, res) => {

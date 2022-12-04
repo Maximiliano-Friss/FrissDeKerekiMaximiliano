@@ -47,7 +47,7 @@ class Contenedor {
             const currentData = await fs.promises.readFile('./productos.txt', 'utf-8');
             const currentDataJSON = JSON.parse(currentData);
             console.log(`Se muestra el producto con el id ${number}:`)
-            return currentDataJSON.find(element => element.id === number) ?? {error: 'producto no encontrado'};
+            return currentDataJSON.find(element => element.id === number) ?? undefined;
         }
         catch (err) {
             console.log(err);
