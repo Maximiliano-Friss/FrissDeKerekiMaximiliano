@@ -1,8 +1,8 @@
-const fs = require('fs')
+import fs from 'fs';
 
 class Contenedor {
     constructor(name){
-        this.name = name
+        this.name = name;
     }
 
     async save(product) {
@@ -16,10 +16,12 @@ class Contenedor {
                 }
             }
 
-            product.id = dataToSave.length + 1
+            product.id = dataToSave.length + 1;
+            product.timestamp = Date.now();
+            product.codigo = `PROD-${product.nombre.toUpperCase()}`;
             dataToSave.push(product);
             await fs.promises.writeFile('./productos.txt', JSON.stringify(dataToSave, null, 2));
-            console.log(`Se agregó un nuevo producto. Su id será ${product.id}`)
+            console.log(`Se agregó un nuevo producto. Su id será ${product.id}`);
             return product
         }
         catch (err) {
@@ -36,7 +38,7 @@ class Contenedor {
             return currentDataJSON[id-1];
         }
         catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
 
@@ -48,7 +50,7 @@ class Contenedor {
             return currentDataJSON.find(element => element.id === number) ?? {error: 'producto no encontrado'};
         }
         catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
 
@@ -59,7 +61,7 @@ class Contenedor {
             return JSON.parse(currentData);
         }
         catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
 
@@ -68,24 +70,24 @@ class Contenedor {
             const currentData = await fs.promises.readFile('./productos.txt', 'utf-8');
             const currentDataJSON = JSON.parse(currentData);
             const newCurrentDataJSON = currentDataJSON.filter(element => element.id !== number);
-            const newCurrentDataJSONUpdatedId = newCurrentDataJSON.map((element, index) => ({...element, id: index + 1}))
+            const newCurrentDataJSONUpdatedId = newCurrentDataJSON.map((element, index) => ({...element, id: index + 1}));
             await fs.promises.writeFile('./productos.txt', JSON.stringify(newCurrentDataJSONUpdatedId, null, 2));
             console.log(`Se eliminó el producto de id ${number}.`)
         }
         catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
 
     deleteAll = async () => {
         try {
             fs.promises.writeFile('./productos.txt', '');
-            console.log('Todos los productos han sido eliminados.')
+            console.log('Todos los productos han sido eliminados.');
         }
         catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
 }
 
-module.exports = Contenedor
+export default Contenedor
