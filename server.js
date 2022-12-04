@@ -16,7 +16,7 @@ app.use('/api/productos', routerProductos);
 app.use('/api/carrito', routerCarrito);
 
 app.get('*', (req, res) => {
-    res.sendFile(__dirname + '/public/error.html');
+    res.json({error: `-1`, descripcion: `Ruta no implementada`})
 })
 
 const server = app.listen(process.env.PORT, () => {

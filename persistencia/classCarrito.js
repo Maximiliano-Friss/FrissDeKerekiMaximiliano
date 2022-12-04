@@ -48,7 +48,7 @@ class Carrito {
             const currentData = await fs.promises.readFile('./carritos.txt', 'utf-8');
             const currentDataJSON = JSON.parse(currentData);
             console.log(`Se busca el carrito con el id ${number}:`);
-            return currentDataJSON.find(element => element.id === number) ?? {error: 'Carrito no encontrado'};
+            return currentDataJSON.find(element => element.id === number) ?? undefined;
         }
         catch (err) {
             console.log(err)

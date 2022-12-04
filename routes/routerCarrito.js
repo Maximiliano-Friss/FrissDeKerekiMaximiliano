@@ -13,8 +13,12 @@ routerCarrito.post('/', async (req, res) => {
 
 routerCarrito.delete('/:id', async (req, res) => {
     const selectedCart = await cart.getCartById(Number(req.params.id));
-    await cart.deleteCartById(Number(req.params.id));
-    res.json({eliminado: selectedCart});
+    if(selectedCart !== undefined){
+        await cart.deleteCartById(Number(req.params.id));
+        res.json({eliminado: selectedCart});
+    } else {
+        res.json({error: `No existen carritos con id ${req.params.id}`})
+    }
 })
 
 routerCarrito.get('/:id/productos', async (req, res) => {

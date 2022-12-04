@@ -39,5 +39,10 @@
     "id": 4,
     "timestamp": 1670183475496,
     "products": []
+  },
+  {
+    "id": 5,
+    "timestamp": 1670185592323,
+    "products": []
   }
 ]
