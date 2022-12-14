@@ -20,10 +20,9 @@ app.set('views', './views')
 
 const { options } = require('./options/mysqlconn.js')
 const { options2 } = require('./options/sqlite3conn.js')
-const ClienteMysql = require('./mysqlContainer.js')
-const ClienteSqlite3 = require('./sqlite3Container.js')
-const clientMySql = new ClienteMysql(options);
-const clientSqlite3 = new ClienteSqlite3(options2);
+const Cliente = require('./dbContainer.js')
+const clientMySql = new Cliente(options, 'productos');
+const clientSqlite3 = new Cliente(options2, 'mensajes');
 
 app.get('/', async (req, res) => {
     const products = await clientMySql.getAll();

@@ -30,7 +30,10 @@ function renderProducts (data) {
         </tr>
         `)
     }).join('');
-    document.getElementById('table1').innerHTML = htmlProd
+    const table1 = document.getElementById('table1')
+    if (table1 !== null) {
+        table1.innerHTML = htmlProd;
+    }
 }
 socket.on('totalProducts', function(data) {renderProducts(data);})
 
