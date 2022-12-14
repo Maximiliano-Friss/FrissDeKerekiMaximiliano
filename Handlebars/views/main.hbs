@@ -22,13 +22,13 @@
 
 {{!-- LISTA PRODUCTOS --}}
 <div class="w-75 mx-auto mt-5 prodList">
-    {{#if full}}
         <table class="table table-success" id="table1">
+        {{#if full}}
             <tr class="h3"> <th>Nombre</th> <th>Precio</th> <th>Thumbnail</th> </tr>
+            {{else}}
+            <h3 class="alert alert-danger">No existen productos</h3>
+        {{/if}}
         </table>
-        {{else}}
-        <h3 class="alert alert-danger">No existen productos</h3>
-    {{/if}}
 </div>
 
 {{!-- CHAT --}}

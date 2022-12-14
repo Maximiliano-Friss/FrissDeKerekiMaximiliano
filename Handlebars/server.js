@@ -17,38 +17,39 @@ app.engine('hbs', handlebars.engine({
     }))
 app.set('view engine', 'hbs')
 app.set('views', './views')
-const Contenedor = require('./classContenedor.js')
-const Mensajes = require('./classMensajes.js')
-const cont = new Contenedor('Productos');
-const chat = new Mensajes('Chat');
+
+const { options } = require('./options/mysqlconn.js')
+const { options2 } = require('./options/sqlite3conn.js')
+const ClienteMysql = require('./mysqlContainer.js')
+const ClienteSqlite3 = require('./sqlite3Container.js')
+const clientMySql = new ClienteMysql(options);
+const clientSqlite3 = new ClienteSqlite3(options2);
 
 app.get('/', async (req, res) => {
-    const products = await cont.getAll();
+    const products = await clientMySql.getAll();
     const full = products.length > 0;
     res.render('main', {full})
 })
 
 io.on('connection', async (socket) => {
     console.log('Nuevo usuario conectado')
-
-    const products = await cont.getAll();
-    const messages = await chat.getAll();
+    const products = await clientMySql.getAll();
+    const messages = await clientSqlite3.getAll();
     io.sockets.emit('totalProducts', products);
     io.sockets.emit('totalMessages', messages);
 
     socket.on('newProduct', async (data) => {
-        cont.save(data);
-        const products = await cont.getAll();
+        clientMySql.save(data);
+        const products = await clientMySql.getAll();
         io.sockets.emit('totalProducts', products)
     })
 
     socket.on('newMessage', async (data) => {
-        chat.save(data);
-        const messages = await chat.getAll();
+        clientSqlite3.save(data);
+        const messages = await clientSqlite3.getAll();
         io.sockets.emit('totalMessages', messages)
     })
 })
-
 
 httpServer.listen(process.env.PORT, () => {
     console.log(`Escuchando en el port ${httpServer.address().port}`)
