@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import Carrito from '../persistencia/classCarrito.js'
-import Contenedor from '../persistencia/classContenedor.js'
+import Carrito from '../contenedores/classCarrito.js'
+import Contenedor from '../contenedores/classContenedor.js'
 
 const routerCarrito = Router()
 const cart = new Carrito('Carrito');
