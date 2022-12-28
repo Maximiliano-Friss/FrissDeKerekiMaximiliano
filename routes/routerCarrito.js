@@ -26,21 +26,25 @@ routerCarrito.delete('/:id', async (req, res) => {
     const selectedCart = await cart.getCartById(req.params.id);
     if(selectedCart !== undefined){
         await cart.deleteCartById(req.params.id);
-        res.json({eliminado: selectedCart});
+        res.json({eliminado: `Se elimina el carrito con id ${req.params.id}`});
     } else {
         res.json({error: `No existen carritos con id ${req.params.id}`})
     }
 })
 
 routerCarrito.get('/:id/productos', async (req, res) => {
-    const selectedCart = await cart.getCartById(req.params.id)
-    res.json(selectedCart.products);
+    const productsInCart = await cart.getCartById(req.params.id)
+    if(productsInCart !== undefined){
+        res.json(productsInCart)
+    } else {
+        res.json({error: `Ocurrió un error al intentar mostrar los productos del carrito con id ${req.params.id}`})
+    }
 })
 
 routerCarrito.post('/:id/productos/:id_prod', async (req, res) => {
     const newProduct = await cont.getById(req.params.id_prod)
     if(newProduct !== undefined){
-        cart.saveProductToCart(req.params.id, newProduct)
+        await cart.saveProductToCart(req.params.id, newProduct)
         res.json({agregado: `${newProduct.nombre} a carrito de ID ${req.params.id}`});
     } else {
         res.json({error: `No existen productos con id ${req.params.id_prod}`})
@@ -48,8 +52,9 @@ routerCarrito.post('/:id/productos/:id_prod', async (req, res) => {
 })
 
 routerCarrito.delete('/:id/productos/:id_prod', async (req, res) => {
-    const deletedProduct = await cart.deleteProdById(req.params.id, req.params.id_prod);
-    res.json({eliminado: `${deletedProduct.nombre} del carrito con id ${req.params.id}`});
+    const selectedProduct = await cont.getById(req.params.id_prod)
+    const deletedProduct = await cart.deleteProdById(req.params.id, selectedProduct);
+    res.json({eliminado: `${selectedProduct.nombre} del carrito con id ${req.params.id}`});
 })
 
 export default routerCarrito

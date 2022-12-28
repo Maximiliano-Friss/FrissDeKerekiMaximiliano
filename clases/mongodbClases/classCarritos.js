@@ -49,9 +49,9 @@ class Carrito {
     async getCartById(id) {
         try{
             await this.mongoConnect()
-            const foundCart = await models.carritos.findById(id)
-            console.log(`Se devuelve el carrito con id: ${id}`)
-            return foundCart
+            const productsInCart = await models.carritos.findById(id,{productos:1, _id:0})
+            console.log(`Se devuelven los productos del carrito con id: ${id}`)
+            return productsInCart.productos
         }
         catch(err){
             console.log(err)
@@ -76,11 +76,10 @@ class Carrito {
         }
     }
     
-    async deleteProdById(id, prod_id) {
+    async deleteProdById(id, product) {
         try{
             await this.mongoConnect()
-            console.log(prod_id)
-            const delProd = await models.carritos.findByIdAndUpdate(id, {$pull: {productos: {_id: prod_id}}})
+            const delProd = await models.carritos.findByIdAndUpdate(id, {$pull: {productos: product}})
             console.log(`Se eliminó un producto del carrito con id ${id}`)
             return delProd
         }
