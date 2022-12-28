@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-class Contenedor {
+class Productos {
     constructor(name){
         this.name = name;
     }
@@ -9,8 +9,8 @@ class Contenedor {
         try {
             let dataToSave = [];
             
-            if (fs.existsSync('./productos.txt')) {
-                const currentData = await fs.promises.readFile('./productos.txt', 'utf-8');
+            if (fs.existsSync('./contenedorArchivos/productos.txt')) {
+                const currentData = await fs.promises.readFile('./contenedorArchivos/productos.txt', 'utf-8');
                 if (currentData !== '') {
                     dataToSave = JSON.parse(currentData);
                 }
@@ -20,7 +20,7 @@ class Contenedor {
             product.timestamp = Date.now();
             product.codigo = `PROD-${product.nombre.toUpperCase()}`;
             dataToSave.push(product);
-            await fs.promises.writeFile('./productos.txt', JSON.stringify(dataToSave, null, 2));
+            await fs.promises.writeFile('./contenedorArchivos/productos.txt', JSON.stringify(dataToSave, null, 2));
             console.log(`Se agregó un nuevo producto. Su id será ${product.id}`);
             return product
         }
@@ -31,10 +31,10 @@ class Contenedor {
 
     update = async(id, newProduct) => {
         try{
-            const currentData = await fs.promises.readFile('./productos.txt', 'utf-8');
+            const currentData = await fs.promises.readFile('./contenedorArchivos/productos.txt', 'utf-8');
             const currentDataJSON = JSON.parse(currentData);
             currentDataJSON[id-1] = {...currentDataJSON[id-1], ...newProduct};
-            await fs.promises.writeFile('./productos.txt', JSON.stringify(currentDataJSON, null, 2));
+            await fs.promises.writeFile('./contenedorArchivos/productos.txt', JSON.stringify(currentDataJSON, null, 2));
             return currentDataJSON[id-1];
         }
         catch (err) {
@@ -44,7 +44,7 @@ class Contenedor {
 
     getById = async (number) => {
         try {
-            const currentData = await fs.promises.readFile('./productos.txt', 'utf-8');
+            const currentData = await fs.promises.readFile('./contenedorArchivos/productos.txt', 'utf-8');
             const currentDataJSON = JSON.parse(currentData);
             console.log(`Se muestra el producto con el id ${number}:`);
             return currentDataJSON.find(element => element.id === number) ?? undefined;
@@ -56,7 +56,7 @@ class Contenedor {
 
     getAll = async () => {
         try {
-            const currentData = await fs.promises.readFile('./productos.txt', 'utf-8');
+            const currentData = await fs.promises.readFile('./contenedorArchivos/productos.txt', 'utf-8');
             console.log('Se muestran todos los productos');
             return JSON.parse(currentData);
         }
@@ -67,11 +67,11 @@ class Contenedor {
 
     deleteById = async (number) => {
         try {
-            const currentData = await fs.promises.readFile('./productos.txt', 'utf-8');
+            const currentData = await fs.promises.readFile('./contenedorArchivos/productos.txt', 'utf-8');
             const currentDataJSON = JSON.parse(currentData);
             const newCurrentDataJSON = currentDataJSON.filter(element => element.id !== number);
             const newCurrentDataJSONUpdatedId = newCurrentDataJSON.map((element, index) => ({...element, id: index + 1}));
-            await fs.promises.writeFile('./productos.txt', JSON.stringify(newCurrentDataJSONUpdatedId, null, 2));
+            await fs.promises.writeFile('./contenedorArchivos/productos.txt', JSON.stringify(newCurrentDataJSONUpdatedId, null, 2));
             console.log(`Se eliminó el producto de id ${number}.`)
         }
         catch (err) {
@@ -81,7 +81,7 @@ class Contenedor {
 
     deleteAll = async () => {
         try {
-            fs.promises.writeFile('./productos.txt', '');
+            fs.promises.writeFile('./contenedorArchivos/productos.txt', '');
             console.log('Todos los productos han sido eliminados.');
         }
         catch (err) {
@@ -90,4 +90,4 @@ class Contenedor {
     }
 }
 
-export default Contenedor
+export default Productos

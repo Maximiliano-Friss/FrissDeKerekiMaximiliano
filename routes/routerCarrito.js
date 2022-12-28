@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import Carrito from '../contenedores/classCarrito.js'
-import Contenedor from '../contenedores/classContenedor.js'
+import Carrito from '../clases/archivosClases/classCarrito.js'
+import Productos from '../clases/archivosClases/classProductos.js'
 
 const routerCarrito = Router()
 const cart = new Carrito('Carrito');
-const cont = new Contenedor('Productos');
+const cont = new Productos('Productos');
+
 
 routerCarrito.post('/', async (req, res) => {
     const newCart = await cart.saveCart();

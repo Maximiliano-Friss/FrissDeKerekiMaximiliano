@@ -4,7 +4,7 @@ import routerProductos from './routes/routerProductos.js';
 import routerCarrito from './routes/routerCarrito.js';
 import path from 'path';
 import {fileURLToPath} from 'url';
-
+import mongoose from 'mongoose';
 const app = express()
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
