@@ -19,8 +19,9 @@ class Carrito {
     async saveCart() {
         try{
             await this.mongoConnect()
-            const newCart = await models.carritos.save()
-            console.log(`Se creó un nuevo carrito con id: ${newCart.id}`)
+            const newCart = await models.carritos().save()
+            console.log(`Se creó un nuevo carrito con id: ${newCart._id}`)
+            return newCart._id
         }
         catch(err){
             console.log(err)
@@ -30,63 +31,64 @@ class Carrito {
         }
     }
     
-    deleteCartById = async (number) => {
-        try {
-            const currentData = await fs.promises.readFile('./contenedorArchivos/carritos.txt', 'utf-8');
-            const currentDataJSON = JSON.parse(currentData);
-            const newCurrentDataJSON = currentDataJSON.filter(element => element.id !== number);
-            const newCurrentDataJSONUpdatedId = newCurrentDataJSON.map((element, index) => ({...element, id: index + 1}))
-            await fs.promises.writeFile('./contenedorArchivos/carritos.txt', JSON.stringify(newCurrentDataJSONUpdatedId, null, 2));
-            console.log(`Se eliminó el carrito de id ${number}.`);
+    async deleteCartById(id) {
+        try{
+            await this.mongoConnect()
+            const delCart = await models.carritos.findByIdAndDelete(id)
+            console.log(`Se elimina el carrito con id ${id}`)
+            return delCart
         }
-        catch (err) {
+        catch(err){
             console.log(err)
+        }
+        finally{
+            mongoose.disconnect()
         }
     }
 
-    getCartById = async (number) => {
-        try {
-            const currentData = await fs.promises.readFile('./contenedorArchivos/carritos.txt', 'utf-8');
-            const currentDataJSON = JSON.parse(currentData);
-            console.log(`Se busca el carrito con el id ${number}:`);
-            return currentDataJSON.find(element => element.id === number) ?? undefined;
+    async getCartById(id) {
+        try{
+            await this.mongoConnect()
+            const foundCart = await models.carritos.findById(id)
+            console.log(`Se devuelve el carrito con id: ${id}`)
+            return foundCart
         }
-        catch (err) {
+        catch(err){
             console.log(err)
+        }
+        finally{
+            mongoose.disconnect()
         }
     }
     
-    saveProductToCart = async(cartId, product) => {
-        try {
-            const currentCarts = await fs.promises.readFile('./contenedorArchivos/carritos.txt', 'utf-8');
-            const currentCartsJSON = JSON.parse(currentCarts);
-            const selectedCart = currentCartsJSON.find(element => element.id === cartId) ?? undefined;
-            let dataToSave = selectedCart.products;
-            product.id = dataToSave.length + 1;
-            dataToSave.push(product);
-            selectedCart.products = dataToSave;
-            currentCartsJSON[cartId-1] = {...currentCartsJSON[cartId-1], ...selectedCart};
-            await fs.promises.writeFile('./contenedorArchivos/carritos.txt', JSON.stringify(currentCartsJSON, null, 2));
-            console.log(`Se agregó un nuevo producto al carrito de ID ${cartId}`);
+    async saveProductToCart(id, product) {
+        try{
+            await this.mongoConnect()
+            const newProd = await models.carritos.findByIdAndUpdate(id, {$push: {productos: product}})
+            console.log(`Se guardó un nuevo producto en el carrito con id ${id}`)
+            return newProd
         }
-        catch (err) {
+        catch(err){
             console.log(err)
+        }
+        finally{
+            mongoose.disconnect()
         }
     }
     
-    deleteProdById = async (cartId, prodId) => {
-        try {
-            const currentCarts = await fs.promises.readFile('./contenedorArchivos/carritos.txt', 'utf-8');
-            const currentCartsJSON = JSON.parse(currentCarts);
-            const deletedProduct = currentCartsJSON[cartId-1].products[prodId-1];
-            const filteredProducts = currentCartsJSON[cartId-1].products.filter(element => element.id !== prodId);
-            const filteredProductsUpdatedId = filteredProducts.map((element, index) => ({...element, id: index + 1}));
-            currentCartsJSON[cartId-1].products = filteredProductsUpdatedId;
-            await fs.promises.writeFile('./contenedorArchivos/carritos.txt', JSON.stringify(currentCartsJSON, null, 2));
-            return deletedProduct;
+    async deleteProdById(id, prod_id) {
+        try{
+            await this.mongoConnect()
+            console.log(prod_id)
+            const delProd = await models.carritos.findByIdAndUpdate(id, {$pull: {productos: {_id: prod_id}}})
+            console.log(`Se eliminó un producto del carrito con id ${id}`)
+            return delProd
         }
-        catch (err) {
-            console.log(err);
+        catch(err){
+            console.log(err)
+        }
+        finally{
+            mongoose.disconnect()
         }
     }
 }

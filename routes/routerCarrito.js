@@ -1,6 +1,16 @@
 import { Router } from 'express';
-import Carrito from '../clases/archivosClases/classCarrito.js'
-import Productos from '../clases/archivosClases/classProductos.js'
+//CAMBIAR EL IMPORT CORRESPONDIENTE PARA ALTERNAR ENTRE MONGODB, FIREBASE Y ARCHIVOS.
+
+//MONGODB:
+import Productos from "../clases/mongodbClases/classProductos.js"
+import Carrito from "../clases/mongodbClases/classCarritos.js"
+
+//FIREBASE:
+
+//ARCHIVOS:
+// import Carrito from '../clases/archivosClases/classCarrito.js'
+// import Productos from '../clases/archivosClases/classProductos.js'
+
 
 const routerCarrito = Router()
 const cart = new Carrito('Carrito');
@@ -13,9 +23,9 @@ routerCarrito.post('/', async (req, res) => {
 })
 
 routerCarrito.delete('/:id', async (req, res) => {
-    const selectedCart = await cart.getCartById(Number(req.params.id));
+    const selectedCart = await cart.getCartById(req.params.id);
     if(selectedCart !== undefined){
-        await cart.deleteCartById(Number(req.params.id));
+        await cart.deleteCartById(req.params.id);
         res.json({eliminado: selectedCart});
     } else {
         res.json({error: `No existen carritos con id ${req.params.id}`})
@@ -23,22 +33,22 @@ routerCarrito.delete('/:id', async (req, res) => {
 })
 
 routerCarrito.get('/:id/productos', async (req, res) => {
-    const selectedCart = await cart.getCartById(Number(req.params.id))
+    const selectedCart = await cart.getCartById(req.params.id)
     res.json(selectedCart.products);
 })
 
 routerCarrito.post('/:id/productos/:id_prod', async (req, res) => {
-    const newProduct = await cont.getById(Number(req.params.id_prod))
+    const newProduct = await cont.getById(req.params.id_prod)
     if(newProduct !== undefined){
-        cart.saveProductToCart(Number(req.params.id), newProduct)
-        res.json({agregado: `${newProduct.nombre} a carrito de ID ${Number(req.params.id)}`});
+        cart.saveProductToCart(req.params.id, newProduct)
+        res.json({agregado: `${newProduct.nombre} a carrito de ID ${req.params.id}`});
     } else {
-        res.json({error: `No existen productos con id ${Number(req.params.id_prod)}`})
+        res.json({error: `No existen productos con id ${req.params.id_prod}`})
     }
 })
 
 routerCarrito.delete('/:id/productos/:id_prod', async (req, res) => {
-    const deletedProduct = await cart.deleteProdById(Number(req.params.id), Number(req.params.id_prod));
+    const deletedProduct = await cart.deleteProdById(req.params.id, req.params.id_prod);
     res.json({eliminado: `${deletedProduct.nombre} del carrito con id ${req.params.id}`});
 })
 
