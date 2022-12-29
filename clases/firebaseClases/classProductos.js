@@ -1,5 +1,5 @@
 import { db } from '../../firebase/db/firebaseConfig.js'
-import {doc, getDocs, getDoc, addDoc, collection, updateDoc, query, where, serverTimestamp} from 'firebase/firestore';
+import {doc, getDocs, getDoc, addDoc, collection, updateDoc, deleteDoc, query, where, serverTimestamp} from 'firebase/firestore';
 
 // const prodCollection = db.collection('productos')
 
@@ -79,31 +79,29 @@ class Productos {
 
     async deleteById(id) {
         try{
-            await this.mongoConnect()
-            const delProd = await models.productos.findByIdAndDelete(id)
+            const prodToDelete = await this.getById(id)
+            await deleteDoc(doc(db, "productos", id));
             console.log(`Se elimina el producto con id ${id}`)
-            return delProd
+            return prodToDelete
         }
         catch(err){
             console.log(err)
-        }
-        finally{
-            mongoose.disconnect()
         }
     }
 
     async deleteAll() {
-        
         try{
-            await this.mongoConnect()
-            await models.productos.deleteMany({})
+            const prodCollection = collection(db,'productos')
+            const allProd = await getDocs(prodCollection)
+            .then(result => {
+                result.docs.forEach(async(element) => {
+                    await this.deleteById(element.id)
+                });
+            })
             console.log('Se eliminan todos los productos')
         }
         catch(err){
             console.log(err)
-        }
-        finally{
-            mongoose.disconnect()
         }
     }
 }
