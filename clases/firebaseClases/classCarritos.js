@@ -1,33 +1,23 @@
-import mongoose from 'mongoose';
-import * as models from '../../mongo/models/carritos.js'
-import URL from '../../mongo/mongoConfig.js'
+import { db } from '../../firebase/db/firebaseConfig.js'
+import {doc, getDocs, getDoc, addDoc, collection, updateDoc, deleteDoc, serverTimestamp} from 'firebase/firestore';
 
 class Carrito {
     constructor(name){
         this.name = name;
     }
 
-    async mongoConnect() {
-        await mongoose.set("strictQuery", false);
-
-        await mongoose.connect(URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        },console.log('Conectado a MongoDB Atlas'))
-    }
-
     async saveCart() {
         try{
-            await this.mongoConnect()
-            const newCart = await models.carritos().save()
-            console.log(`Se creó un nuevo carrito con id: ${newCart._id}`)
-            return newCart._id
+            const cartCollection = collection(db,'carritos')
+            const addedCart = await addDoc(cartCollection, {
+                productos: [],
+                date: serverTimestamp()
+            })
+            const newCart = await this.getById(addedCart.id)
+            return newCart
         }
         catch(err){
             console.log(err)
-        }
-        finally{
-            mongoose.disconnect()
         }
     }
     

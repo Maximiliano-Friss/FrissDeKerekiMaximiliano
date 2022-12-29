@@ -1,7 +1,5 @@
 import { db } from '../../firebase/db/firebaseConfig.js'
-import {doc, getDocs, getDoc, addDoc, collection, updateDoc, deleteDoc, query, where, serverTimestamp} from 'firebase/firestore';
-
-// const prodCollection = db.collection('productos')
+import {doc, getDocs, getDoc, addDoc, collection, updateDoc, deleteDoc, serverTimestamp} from 'firebase/firestore';
 
 class Productos {
     constructor(name){
