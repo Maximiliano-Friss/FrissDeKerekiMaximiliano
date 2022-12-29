@@ -3,9 +3,10 @@ import {} from 'dotenv/config';
 //CAMBIAR EL IMPORT CORRESPONDIENTE PARA ALTERNAR ENTRE MONGODB, FIREBASE Y ARCHIVOS.
 
 //MONGODB:
-import Productos from "../clases/mongodbClases/classProductos.js"
+// import Productos from "../clases/mongodbClases/classProductos.js"
 
 //FIREBASE:
+import Productos from "../clases/firebaseClases/classProductos.js"
 
 //ARCHIVOS:
 // import Productos from '../clases/archivosClases/classProductos.js';
@@ -19,6 +20,7 @@ const administrador = true;
 
 routerProductos.get('/', async (req, res) => {
     const products = await cont.getAll();
+    console.log(products)
     res.json(products);
 })
 
