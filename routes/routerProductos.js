@@ -54,8 +54,8 @@ routerProductos.delete('/:id', async (req, res) => {
     } else {
     const {id} = req.params;
     const selectedProduct = await cont.getById(req.params.id);
-    await cont.deleteById(id);
-    res.json({eliminado: selectedProduct.nombre});
+    const deletedProd = await cont.deleteById(id);
+    res.json({eliminado: deletedProd.nombre});
     }
 })
 

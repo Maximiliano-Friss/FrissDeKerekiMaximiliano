@@ -1,5 +1,5 @@
 import { db } from '../../firebase/db/firebaseConfig.js'
-import {doc, getDocs, getDoc, addDoc, collection, updateDoc, deleteDoc, serverTimestamp} from 'firebase/firestore';
+import {doc, arrayUnion, getDoc, addDoc, collection, updateDoc, deleteDoc, serverTimestamp} from 'firebase/firestore';
 
 class Carrito {
     constructor(name){
@@ -9,12 +9,12 @@ class Carrito {
     async saveCart() {
         try{
             const cartCollection = collection(db,'carritos')
-            const addedCart = await addDoc(cartCollection, {
+            const newCart = await addDoc(cartCollection, {
                 productos: [],
                 date: serverTimestamp()
             })
-            const newCart = await this.getById(addedCart.id)
-            return newCart
+            const newCartId = newCart.id
+            return newCartId
         }
         catch(err){
             console.log(err)
@@ -23,46 +23,49 @@ class Carrito {
     
     async deleteCartById(id) {
         try{
-            await this.mongoConnect()
-            const delCart = await models.carritos.findByIdAndDelete(id)
+            const cartToDelete = await this.getCartById(id)
+            await deleteDoc(doc(db, "carritos", id));
             console.log(`Se elimina el carrito con id ${id}`)
-            return delCart
+            return cartToDelete
         }
         catch(err){
             console.log(err)
-        }
-        finally{
-            mongoose.disconnect()
         }
     }
 
     async getCartById(id) {
         try{
-            await this.mongoConnect()
-            const productsInCart = await models.carritos.findById(id,{productos:1, _id:0})
-            console.log(`Se devuelven los productos del carrito con id: ${id}`)
-            return productsInCart.productos
+            const docRef = doc(db,'carritos', id)
+            const selectedCart = await getDoc(docRef)
+            .then(doc => {
+                return {
+                    id: doc.id,
+                    ...doc.data(),
+                }
+            })
+            const productsInCart = selectedCart.productos
+            return productsInCart
         }
         catch(err){
             console.log(err)
-        }
-        finally{
-            mongoose.disconnect()
         }
     }
     
     async saveProductToCart(id, product) {
         try{
-            await this.mongoConnect()
-            const newProd = await models.carritos.findByIdAndUpdate(id, {$push: {productos: product}})
-            console.log(`Se guardó un nuevo producto en el carrito con id ${id}`)
+            const docRef = doc(db, "carritos", id);
+            const productsInCart = await this.getCartById(id)
+            console.log(productsInCart)
+            productsInCart.push(product)
+            console.log(productsInCart)
+            const newProd = await updateDoc(docRef, {
+                productos: productsInCart
+            });
+            console.log(`Se agrega el producto ${product.nombre} al carrito con id: ${id}`)
             return newProd
         }
         catch(err){
             console.log(err)
-        }
-        finally{
-            mongoose.disconnect()
         }
     }
     

@@ -15,7 +15,6 @@ class Productos {
             })
             const newProd = await this.getById(addedProd.id)
             return newProd
-            
         }
         catch(err){
             console.log(err)
