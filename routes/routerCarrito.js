@@ -2,12 +2,12 @@ import { Router } from 'express';
 //CAMBIAR EL IMPORT CORRESPONDIENTE PARA ALTERNAR ENTRE MONGODB, FIREBASE Y ARCHIVOS.
 
 //MONGODB:
-// import Productos from "../clases/mongodbClases/classProductos.js"
-// import Carrito from "../clases/mongodbClases/classCarritos.js"
+import Productos from "../clases/mongodbClases/classProductos.js"
+import Carrito from "../clases/mongodbClases/classCarritos.js"
 
 //FIREBASE:
-import Productos from "../clases/firebaseClases/classProductos.js"
-import Carrito from "../clases/firebaseClases/classCarritos.js"
+// import Productos from "../clases/firebaseClases/classProductos.js"
+// import Carrito from "../clases/firebaseClases/classCarritos.js"
 
 //ARCHIVOS:
 // import Carrito from '../clases/archivosClases/classCarrito.js'

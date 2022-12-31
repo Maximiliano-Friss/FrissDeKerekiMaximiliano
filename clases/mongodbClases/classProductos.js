@@ -34,8 +34,9 @@ class Productos {
     async update(id, updProduct) {
         try{
             await this.mongoConnect()
-            const updatedProd = await models.productos.findByIdAndUpdate(id,{$set: updProduct})
+            const updatedProd = await models.productos.findByIdAndUpdate(id,{$set: updProduct},{new: true})
             console.log(`Se actualiza el producto con id: ${id}`)
+            console.log(updatedProd)
             return updatedProd
         }
         catch(err){

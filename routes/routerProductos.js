@@ -3,10 +3,10 @@ import {} from 'dotenv/config';
 //CAMBIAR EL IMPORT CORRESPONDIENTE PARA ALTERNAR ENTRE MONGODB, FIREBASE Y ARCHIVOS.
 
 //MONGODB:
-// import Productos from "../clases/mongodbClases/classProductos.js"
+import Productos from "../clases/mongodbClases/classProductos.js"
 
 //FIREBASE:
-import Productos from "../clases/firebaseClases/classProductos.js"
+// import Productos from "../clases/firebaseClases/classProductos.js"
 
 //ARCHIVOS:
 // import Productos from '../clases/archivosClases/classProductos.js';
