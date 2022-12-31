@@ -50,14 +50,31 @@ class Carrito {
             console.log(err)
         }
     }
+
+    isInCart = (prod_id) => {
+        return products.some(product => product.id === prod_id);
+    }
     
     async saveProductToCart(id, product) {
         try{
             const docRef = doc(db, "carritos", id);
             const productsInCart = await this.getCartById(id)
-            console.log(productsInCart)
-            productsInCart.push(product)
-            console.log(productsInCart)
+            let addedProd = {}
+            const duplicatedProd = productsInCart.find(element => element.nombre === product.nombre)
+            const index = productsInCart.findIndex(item => item.nombre === product.nombre);
+            if (productsInCart.some(element => element.id === product.id)) {
+                addedProd = {
+                    ...duplicatedProd,
+                    cantidad: (duplicatedProd.cantidad + 1)
+                }
+                productsInCart.splice(index, 1, addedProd)
+            } else {
+                addedProd = {
+                    ...product,
+                    cantidad: 1
+                }
+                productsInCart.push(addedProd)
+            }
             const newProd = await updateDoc(docRef, {
                 productos: productsInCart
             });
@@ -71,16 +88,18 @@ class Carrito {
     
     async deleteProdById(id, product) {
         try{
-            await this.mongoConnect()
-            const delProd = await models.carritos.findByIdAndUpdate(id, {$pull: {productos: product}})
-            console.log(`Se eliminó un producto del carrito con id ${id}`)
-            return delProd
+            console.log(product)
+            const docRef = doc(db, "carritos", id);
+            const productsInCart = await this.getCartById(id)
+            const index = productsInCart.map(prod => prod.id).indexOf(product.id)
+            productsInCart.splice(index, 1)
+            await updateDoc(docRef, {
+                productos: productsInCart
+            });
+            console.log(`Se elimina el producto ${product.nombre} del carrito con id: ${id}`)
         }
         catch(err){
             console.log(err)
-        }
-        finally{
-            mongoose.disconnect()
         }
     }
 }

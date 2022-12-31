@@ -55,7 +55,7 @@ routerCarrito.post('/:id/productos/:id_prod', async (req, res) => {
 
 routerCarrito.delete('/:id/productos/:id_prod', async (req, res) => {
     const selectedProduct = await cont.getById(req.params.id_prod)
-    const deletedProduct = await cart.deleteProdById(req.params.id, selectedProduct);
+    await cart.deleteProdById(req.params.id, selectedProduct);
     res.json({eliminado: `${selectedProduct.nombre} del carrito con id ${req.params.id}`});
 })
 
