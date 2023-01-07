@@ -1,14 +1,13 @@
-const { options } = require('./options/mysqlconn.js')
-const knex = require('knex')(options)
+import { faker } from '@faker-js/faker'
+faker.locale = 'es'
 
-knex.schema.createTable('productos', table => {
-    table.increments('id').primary()
-    table.string('nombre', 20).notNullable()
-    table.float('precio')
-    table.string('thumbnail', 1000).notNullable()
-})
-.then(() => console.log('Tabla productos creada'))
-.catch(err => console.log(err))
-.finally(() => {
-    knex.destroy()
-})
+function getProducts(id) {
+    return {
+        id: id,
+        nombre: faker.commerce.product(),
+        precio: faker.commerce.price(50, 1000, 0),
+        thumbnail: faker.image.image()
+    }
+}
+
+export default getProducts
