@@ -21,18 +21,29 @@ form2.addEventListener('submit', () => {
 })
 
 function renderProducts (data) {
-    const htmlProd = data.map(element => {
-        return(`
-        <tr>
-            <td>${element.nombre}</td>
-            <td>${element.precio}</td>
-            <td><img src="${element.thumbnail}" alt="Icono $${element.nombre}"></td>
-        </tr>
-        `)
+    let table = `
+    <table class="table table-success" id="table1">
+        <thead>
+            <tr class="h3">
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Thumbnail</th>
+            </tr>
+        </thead>`
+        let htmlProd = data.map(element => {
+            return(`
+            <tbody>
+                <tr>
+                    <td>${element.nombre}</td>
+                    <td>${element.precio}</td>
+                    <td><img src="${element.thumbnail}" alt="Icono $${element.nombre}"></td>
+                </tr>
+            </tbody>
+    </table>`)
     }).join('');
     const table1 = document.getElementById('table1')
     if (table1 !== null) {
-        table1.innerHTML = htmlProd;
+        table1.innerHTML = table +=htmlProd;
     }
 }
 socket.on('totalProducts', function(data) {renderProducts(data);})
