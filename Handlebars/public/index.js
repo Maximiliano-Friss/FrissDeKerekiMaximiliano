@@ -67,5 +67,6 @@ function renderMessages (data) {
         `)
     }).join('');
     document.getElementById('msg').innerHTML = htmlMsg
+    document.getElementById('compresion').innerHTML = (100 - 100*(JSON.stringify(data).length)/(JSON.stringify(denormObj).length)).toFixed(0) + '%'
 }
 socket.on('totalMessages', function(data) {renderMessages(data);})
