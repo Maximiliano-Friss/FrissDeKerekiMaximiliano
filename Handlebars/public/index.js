@@ -1,14 +1,14 @@
 const socket = io();
-// const form2 = document.getElementById('form2')
 
-// form2.addEventListener('submit', () => {
-//     const newMessage = {
-//         email: document.getElementById('email').value,
-//         mensaje: document.getElementById('mensaje').value,
-//         date: (new Date()).toLocaleString('en-GB'),
-//     }
-//     socket.emit('newMessage', newMessage)
-// })
+const schemaAuthor = new normalizr.schema.Entity('author', {}, {idAttribute:'email'})
+
+const schemaSingleMessage = new normalizr.schema.Entity('singleMessage',{
+    author: schemaAuthor
+})
+
+const schemaMessages = new normalizr.schema.Entity('mensajes', {
+    mensajes: [schemaSingleMessage]
+})
 
 function renderProducts (data) {
     let table = `
@@ -38,12 +38,34 @@ function renderProducts (data) {
 }
 socket.on('totalProducts', function(data) {renderProducts(data);})
 
-// function renderMessages (data) {
-//     const htmlMsg = data.map(element => {
-//         return(`
-//         <p><span class='email'>${element.email}</span> <span class='date'>${element.date}:</span> <span class='mensaje'>${element.mensaje}</span></p>
-//         `)
-//     }).join('');
-//     document.getElementById('msg').innerHTML = htmlMsg
-// }
-// socket.on('totalMessages', function(data) {renderMessages(data);})
+const form2 = document.getElementById('form2')
+
+form2.addEventListener('submit', () => {
+    const newMessage = {
+        createdAt: (new Date()).toLocaleString('en-GB'),
+        mensaje: document.getElementById('mensaje').value,
+        author: {
+            email: document.getElementById('email').value,
+            nombre: document.getElementById('nombre').value,
+            apellido: document.getElementById('apellido').value,
+            edad: document.getElementById('edad').value,
+            alias: document.getElementById('alias').value,
+            avatar: document.getElementById('avatar').value,
+        }
+    }
+    socket.emit('newMessage', newMessage)
+})
+
+function renderMessages (data) {
+    const denormObj = normalizr.denormalize(data.result, schemaMessages, data.entities)
+    const htmlMsg = denormObj.mensajes.map(element => {
+        return(`
+        <div class='mensaje-box'>
+        <img src=${element.author.avatar} width=50>
+        <p><span class='email'>${element.author.email}</span> <span class='date'>${element.createdAt}:</span> <span class='mensaje'>${element.mensaje}</span></p>
+        </div>
+        `)
+    }).join('');
+    document.getElementById('msg').innerHTML = htmlMsg
+}
+socket.on('totalMessages', function(data) {renderMessages(data);})

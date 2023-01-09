@@ -4,11 +4,17 @@ import express from 'express'
 import { createServer } from "http";
 import { Server } from "socket.io";
 import getProducts from './createTableProd.js';
-
+import Mensajes from './createTableMsg.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import {normalize, schema} from 'normalizr'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+import util from 'util'
+function print (objeto) {
+    console.log(util.inspect(objeto, false,12,true))
+}
 
 const app = express()
 const httpServer = createServer(app)
@@ -26,15 +32,20 @@ app.engine('hbs', handlebars.engine({
 app.set('view engine', 'hbs')
 app.set('views', './views')
 
+const contMsg = new Mensajes('mensajes')
 
-// const Cliente = require('./dbContainer.js')
-// const clientMySql = new Cliente(options, 'productos');
-// const clientSqlite3 = new Cliente(options2, 'mensajes');
+const schemaAuthor = new schema.Entity('author', {}, {idAttribute:'email'})
+
+const schemaSingleMessage = new schema.Entity('singleMessage',{
+    author: schemaAuthor
+})
+
+const schemaMessages = new schema.Entity('mensajes', {
+    mensajes: [schemaSingleMessage]
+})
 
 app.get('/', async (req, res) => {
-    const products = await clientMySql.getAll();
-    const full = products.length > 0;
-    res.render('main', {full})
+    res.render('main')
 })
 
 app.get('/api/productos-test', async (req, res) => {
@@ -47,16 +58,18 @@ io.on('connection', async (socket) => {
     for (let i=0; i < 5; i++) {
         products.push(getProducts(i+1))
     }
-    console.log(products)
     io.sockets.emit('totalProducts', products);
-    // const messages = await clientSqlite3.getAll();
-    // io.sockets.emit('totalMessages', messages);
 
-    // socket.on('newMessage', async (data) => {
-    //     clientSqlite3.save(data);
-    //     const messages = await clientSqlite3.getAll();
-    //     io.sockets.emit('totalMessages', messages)
-    // })
+    const messages = await contMsg.getAll();
+    const normMessages = normalize(messages, schemaMessages)
+    io.sockets.emit('totalMessages', normMessages);
+
+    socket.on('newMessage', async (data) => {
+        contMsg.save(data);
+        const messages = await contMsg.getAll();
+        const normMessages = normalize(messages, schemaMessages)
+        io.sockets.emit('totalMessages', normMessages)
+    })
 })
 
 httpServer.listen(process.env.PORT, () => {
